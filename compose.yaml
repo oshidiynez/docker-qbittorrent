@@ -1,0 +1,28 @@
+name: "arr"
+services:
+  qbittorrent:
+    image: "11notes/qbittorrent:5.1.1"
+    read_only: true
+    environment:
+      TZ: "Europe/Zurich"
+    volumes:
+      - "qbittorrent.etc:/qbittorrent/etc"
+      - "qbittorrent.var:/qbittorrent/var"
+      - "arr.downloads:/downloads"
+    ports:
+      - "3000:3000/tcp"
+    networks:
+      frontend:
+    restart: "always"
+
+volumes:
+  qbittorrent.etc:
+  qbittorrent.var:
+  arr.downloads:
+    driver_opts:
+      type: "nfs"
+      o: "addr=nfs.domain.com,nolock,soft,nfsvers=4"
+      device: ":/arr/downloads"
+
+networks:
+  frontend:
