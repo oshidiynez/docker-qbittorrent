@@ -8,7 +8,7 @@ services:
     volumes:
       - "qbittorrent.etc:/qbittorrent/etc"
       - "qbittorrent.var:/qbittorrent/var"
-      - "arr.downloads:/downloads"
+      - "share:/share"
     ports:
       - "3000:3000/tcp"
     networks:
@@ -18,11 +18,11 @@ services:
 volumes:
   qbittorrent.etc:
   qbittorrent.var:
-  arr.downloads:
+  share:
     driver_opts:
       type: "nfs"
-      o: "addr=nfs.domain.com,nolock,soft,nfsvers=4"
-      device: ":/arr/downloads"
+      o: "addr=share.nfs.domain.com,nolock,soft,nfsvers=4"
+      device: ":/share"
 
 networks:
   frontend:
