@@ -83,7 +83,7 @@ jobs:
                 const etc = {
                   build:{
                     args:{
-                      LIBTORRENT_VERSION = '${{ env.LATEST_LIBTORRENT_VERSION }}';
+                      LIBTORRENT_VERSION = '${{ env.LATEST_LIBTORRENT_VERSION }}',
                     }
                   },
                 };
