@@ -19,7 +19,7 @@
       ]
     },
     "comparison": {
-      "image": "ghcr.io/home-operations/qbittorrent:5.1.1"
+      "image": "linuxserver/qbittorrent:5.1.1"
     }
   }
 }
