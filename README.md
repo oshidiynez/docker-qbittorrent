@@ -25,12 +25,12 @@ If you value security, simplicity and the ability to interact with the maintaine
 # COMPARISON 🏁
 Below you find a comparison between this image and the most used or original one.
 
-| **image** | 11notes/qbittorrent:5.1.1 | ghcr.io/home-operations/qbittorrent:5.1.1 |
+| **image** | 11notes/qbittorrent:5.1.1 | linuxserver/qbittorrent:5.1.1 |
 | ---: | :---: | :---: |
-| **image size on disk** | 35.8MB | 95MB |
-| **process UID/GID** | 1000/1000 | 65534/65533 |
+| **image size on disk** | 35.8MB | 197MB |
+| **process UID/GID** | 1000/1000 | 0/0 |
 | **distroless?** | ✅ | ❌ |
-| **rootless?** | ✅ | ✅ |
+| **rootless?** | ✅ | ❌ |
 
 
 # VOLUMES 📁
@@ -49,7 +49,7 @@ services:
     volumes:
       - "qbittorrent.etc:/qbittorrent/etc"
       - "qbittorrent.var:/qbittorrent/var"
-      - "arr.downloads:/downloads"
+      - "share:/share"
     ports:
       - "3000:3000/tcp"
     networks:
@@ -59,11 +59,11 @@ services:
 volumes:
   qbittorrent.etc:
   qbittorrent.var:
-  arr.downloads:
+  share:
     driver_opts:
       type: "nfs"
-      o: "addr=nfs.domain.com,nolock,soft,nfsvers=4"
-      device: ":/arr/downloads"
+      o: "addr=share.nfs.domain.com,nolock,soft,nfsvers=4"
+      device: ":/share"
 
 networks:
   frontend:
@@ -126,4 +126,4 @@ docker pull quay.io/11notes/qbittorrent:5.1.1
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-qbittorrent/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-qbittorrent/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-qbittorrent/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 23.06.2025, 23:39:55 (CET)*
+*created 26.06.2025, 15:39:21 (CET)*
