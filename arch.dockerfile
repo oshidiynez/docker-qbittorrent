@@ -9,6 +9,7 @@
       APP_LIBTORRENT_VERSION=2.0.11
 
   # :: FOREIGN IMAGES
+  FROM 11notes/distroless AS distroless
   FROM 11notes/distroless:unrar AS distroless-unrar
   FROM 11notes/util AS util
 
@@ -55,11 +56,12 @@
 
   RUN set -ex; \
     eleven mkdir /distroless${APP_ROOT}/{etc,var,cache}; \
-    mkdir -p /distroless/opt/qBittorrent; \
+    mkdir -p /distroless/opt/qBittorrent/logs; \
     eleven mkdir ${APP_ROOT}/{etc,var,cache}; \
     ln -sf ${APP_ROOT}/etc /distroless/opt/qBittorrent/config; \
     ln -sf ${APP_ROOT}/var /distroless/opt/qBittorrent/data; \
-    ln -sf ${APP_ROOT}/cache /distroless/opt/qBittorrent/cache; 
+    ln -sf ${APP_ROOT}/cache /distroless/opt/qBittorrent/cache; \
+    ln -sf /dev/stdout /distroless/opt/qBittorrent/logs/qbittorrent.log;
 
 
 # ╔═════════════════════════════════════════════════════╗
@@ -88,9 +90,10 @@
         APP_ROOT=${APP_ROOT}
 
   # :: multi-stage
+    COPY --from=distroless / /
+    COPY --from=distroless-unrar / /
     COPY --from=build /distroless/ /
     COPY --from=file-system --chown=${APP_UID}:${APP_GID} /distroless/ /
-    COPY --from=distroless-unrar / /
     COPY --chown=${APP_UID}:${APP_GID} ./rootfs/ /
 
 # :: PERSISTENT DATA
