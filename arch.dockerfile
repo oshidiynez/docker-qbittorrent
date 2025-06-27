@@ -90,7 +90,6 @@
 
   # :: multi-stage
     COPY --from=distroless / /
-    COPY --from=distroless-unrar / /
     COPY --from=build /distroless/ /
     COPY --from=file-system --chown=${APP_UID}:${APP_GID} /distroless/ /
     COPY --chown=${APP_UID}:${APP_GID} ./rootfs/ /
