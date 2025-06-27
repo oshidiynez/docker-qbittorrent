@@ -39,7 +39,6 @@ jobs:
             const { existsSync, readFileSync, writeFileSync } = require('node:fs');
             const { resolve } = require('node:path');
             const { inspect } = require('node:util');
-            const { Buffer } = require('node:buffer');
             const semver = require('semver')
             const repository = {dot:{}};
 
@@ -80,14 +79,16 @@ jobs:
               try{
                 writeFileSync(resolve('.json'), JSON.stringify(repository.dot, null, 2));
                 core.exportVariable('WORKFLOW_AUTO_UPDATE', true);
+
                 const etc = {
                   build:{
                     args:{
-                      LIBTORRENT_VERSION = '${{ env.LATEST_LIBTORRENT_VERSION }}',
+                      LIBTORRENT_VERSION :'${{ env.LATEST_LIBTORRENT_VERSION }}',
                     }
                   },
                 };
                 core.exportVariable('WORKFLOW_BASE64JSON', Buffer.from(JSON.stringify(etc)).toString('base64'));
+
               }catch(e){
                 core.setFailed(e);
               }
