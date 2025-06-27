@@ -27,7 +27,7 @@ Below you find a comparison between this image and the most used or original one
 
 | **image** | 11notes/qbittorrent:5.1.1 | linuxserver/qbittorrent:5.1.1 |
 | ---: | :---: | :---: |
-| **image size on disk** | 35.8MB | 197MB |
+| **image size on disk** | 36.7MB | 197MB |
 | **process UID/GID** | 1000/1000 | 0/0 |
 | **distroless?** | ✅ | ❌ |
 | **rootless?** | ✅ | ❌ |
@@ -49,7 +49,6 @@ services:
     volumes:
       - "qbittorrent.etc:/qbittorrent/etc"
       - "qbittorrent.var:/qbittorrent/var"
-      - "share:/share"
     ports:
       - "3000:3000/tcp"
     networks:
@@ -59,11 +58,6 @@ services:
 volumes:
   qbittorrent.etc:
   qbittorrent.var:
-  share:
-    driver_opts:
-      type: "nfs"
-      o: "addr=share.nfs.domain.com,nolock,soft,nfsvers=4"
-      device: ":/share"
 
 networks:
   frontend:
@@ -121,9 +115,10 @@ docker pull quay.io/11notes/qbittorrent:5.1.1
 
 # CAUTION ⚠️
 > [!CAUTION]
->* If you use the compose example as a base for your individual configuration, please make sure to change the default web ui login account password or provide your own qBittorrent.conf
+>* If you use the image with the default configuration, please make sure to change the default web ui login account password or provide your own qBittorrent.conf
+>* The log file is active in this image by default if using the default configuration. Some people are scared of it, the log is not written to disk though but only to console. Yet in Docker the console output is written to the Docker log file. If you don’t want that, simply disable the log in the web UI
 
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-qbittorrent/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-qbittorrent/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-qbittorrent/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 26.06.2025, 15:39:21 (CET)*
+*created 27.06.2025, 09:07:17 (CET)*
