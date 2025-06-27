@@ -10,7 +10,6 @@
 
   # :: FOREIGN IMAGES
   FROM 11notes/distroless AS distroless
-  FROM 11notes/distroless:unrar AS distroless-unrar
   FROM 11notes/util AS util
 
 # ╔═════════════════════════════════════════════════════╗
