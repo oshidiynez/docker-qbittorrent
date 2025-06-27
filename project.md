@@ -33,4 +33,5 @@ ${{ content_tips }}
 
 ${{ title_caution }}
 ${{ github:> [!CAUTION] }}
-${{ github:> }}* If you use the compose example as a base for your individual configuration, please make sure to change the default web ui login account password or provide your own qBittorrent.conf
+${{ github:> }}* If you use the image with the default configuration, please make sure to change the default web ui login account password or provide your own qBittorrent.conf
+${{ github:> }}* The log file is active in this image by default if using the default configuration. Some people are scared of it, the log is not written to disk though but only to console. Yet in Docker the console output is written to the Docker log file. If you don’t want that, simply disable the log in the web UI
