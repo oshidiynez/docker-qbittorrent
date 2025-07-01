@@ -14,8 +14,7 @@
     },
     "distroless": {
       "layers": [
-        "11notes/distroless",
-        "11notes/distroless:unrar"
+        "11notes/distroless"
       ]
     },
     "comparison": {
