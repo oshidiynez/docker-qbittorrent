@@ -24,21 +24,24 @@
       TARGETARCH \
       TARGETPLATFORM \
       TARGETVARIANT \
-      URL_PREFIX="https://github.com/userdocs/qbittorrent-nox-static/releases/download/" \
       APP_LIBTORRENT_VERSION
 
   RUN set -ex; \
     apk --update --no-cache add \
-      build-base \
-      upx \
+      jq \
+      curl \
       wget;
 
   RUN set -ex; \
     case "${TARGETARCH}${TARGETVARIANT}" in \
-      "amd64") wget ${URL_PREFIX}/release-${APP_VERSION}_v${APP_LIBTORRENT_VERSION}/x86_64-qbittorrent-nox -O ${BUILD_BIN};; \
-      "arm64") wget ${URL_PREFIX}/release-${APP_VERSION}_v${APP_LIBTORRENT_VERSION}/aarch64-qbittorrent-nox -O ${BUILD_BIN};; \
-      "armv7") wget ${URL_PREFIX}/release-${APP_VERSION}_v${APP_LIBTORRENT_VERSION}/armv7-qbittorrent-nox -O ${BUILD_BIN};; \
-    esac;
+      "amd64") QBITTORRENT_NAME=x86_64-qbittorrent-nox;; \
+      "arm64") QBITTORRENT_NAME=aarch64-qbittorrent-nox;; \
+      "armv7") QBITTORRENT_NAME=armv7-qbittorrent-nox;; \
+    esac; \
+    GITHUB_SHA256=$(curl -s -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases | jq --raw-output '.[] | select(.tag_name == "'${APP_VERSION}_v${APP_LIBTORRENT_VERSION}'") | .assets[] | select(.name == "'${QBITTORRENT_NAME}'") | .digest' | sed 's/sha256://'); \
+    GITHUB_BIN=$(curl -s -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases | jq --raw-output '.[] | select(.tag_name == "'${APP_VERSION}_v${APP_LIBTORRENT_VERSION}'") | .assets[] | select(.name == "'${QBITTORRENT_NAME}'") | .browser_download_url'); \
+    wget ${GITHUB_BIN} -O ${BUILD_BIN}; \
+    echo "${GITHUB_SHA256} ${BUILD_BIN}" | sha256sum -c || exit 1
 
   RUN set -ex; \
     mkdir -p /distroless/usr/local/bin; \
