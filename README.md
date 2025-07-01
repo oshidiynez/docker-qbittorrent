@@ -13,21 +13,22 @@ qBittorrent is a bittorrent client programmed in C++ / Qt that uses libtorrent (
 **What can I do with this?** This image will run qbittorrent rootless and distroless, for maximum security. Enjoy your adventures on the high sea as safe as it can be.
 
 > [!IMPORTANT]
->* This image runs as 1000:1000 by default, most other images run everything as root
->* This image has no shell since it is distroless, most other images run on a distro like Debian or Alpine with full shell access (security)
->* This image does not ship with any critical or high rated CVE and is automatically maintained via CI/CD, most other images mostly have no CVE scanning or code quality tools in place
->* This image is created via a secure, pinned CI/CD process and immune to upstream attacks, most other images have upstream dependencies that can be exploited
->* This image works as read-only, most other images need to write files to the image filesystem
->* This image is a lot smaller than most other images
+>* This image runs [rootless](https://github.com/11notes/RTFM/blob/main/linux/container/image/rootless.md) as 1000:1000
+>* This image has no shell since it is [distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md)
+>* This image runs read-only
+>* This image is automatically scanned for CVEs before and after publishing
+>* This image is created via a secure and pinned CI/CD process
+>* This image verifies all external payloads
+>* This image is a lot smaller
 
-If you value security, simplicity and the ability to interact with the maintainer and developer of an image. Using my images is a great start in that direction.
+If you value security, simplicity and optimizations to the extreme, then this image might be for you.
 
 # COMPARISON 🏁
 Below you find a comparison between this image and the most used or original one.
 
 | **image** | 11notes/qbittorrent:5.1.1 | linuxserver/qbittorrent:5.1.1 |
 | ---: | :---: | :---: |
-| **image size on disk** | 35.2MB | 197MB |
+| **image size on disk** | 19.4MB | 197MB |
 | **process UID/GID** | 1000/1000 | 0/0 |
 | **distroless?** | ✅ | ❌ |
 | **rootless?** | ✅ | ❌ |
@@ -70,7 +71,7 @@ networks:
 | `uid` | 1000 | [user identifier](https://en.wikipedia.org/wiki/User_identifier) |
 | `gid` | 1000 | [group identifier](https://en.wikipedia.org/wiki/Group_identifier) |
 | `home` | /qbittorrent | home directory of user docker |
-| `login` | admin // qbittorrent | login using compose example |
+| `login` | admin // qbittorrent | login using default config |
 
 # ENVIRONMENT 📝
 | Parameter | Value | Default |
@@ -103,7 +104,6 @@ docker pull quay.io/11notes/qbittorrent:5.1.1
 >This image is not based on another image but uses [scratch](https://hub.docker.com/_/scratch) as the starting layer.
 >The image consists of the following distroless layers that were added:
 >* [11notes/distroless](https://github.com/11notes/docker-distroless/blob/master/arch.dockerfile) - contains users, timezones and Root CA certificates
->* 11notes/distroless:unrar
 
 # BUILT WITH 🧰
 * [qbittorrent/qBittorrent](https://github.com/qbittorrent/qBittorrent)
@@ -116,9 +116,8 @@ docker pull quay.io/11notes/qbittorrent:5.1.1
 # CAUTION ⚠️
 > [!CAUTION]
 >* If you use the image with the default configuration, please make sure to change the default web ui login account password or provide your own qBittorrent.conf
->* The log file is active in this image by default if using the default configuration. Some people are scared of it, the log is not written to disk though but only to console. Yet in Docker the console output is written to the Docker log file. If you don’t want that, simply disable the log in the web UI
 
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-qbittorrent/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-qbittorrent/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-qbittorrent/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 27.06.2025, 11:38:18 (CET)*
+*created 01.07.2025, 14:11:15 (CET)*
