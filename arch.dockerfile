@@ -17,7 +17,7 @@
 # ╚═════════════════════════════════════════════════════╝
   # :: qbittorrent
   FROM alpine AS build
-  COPY --from=util /usr/local/bin /usr/local/bin
+  COPY --from=util / /
   ARG APP_VERSION \
       BUILD_ROOT \
       BUILD_BIN \
@@ -25,6 +25,8 @@
       TARGETPLATFORM \
       TARGETVARIANT \
       APP_LIBTORRENT_VERSION
+
+  ENV BUILD_BIN=qbittorrent
 
   RUN set -ex; \
     apk --update --no-cache add \
@@ -34,17 +36,18 @@
 
   RUN set -ex; \
     case "${TARGETARCH}${TARGETVARIANT}" in \
-      "amd64") QBITTORRENT_NAME=x86_64-qbittorrent-nox;; \
-      "arm64") QBITTORRENT_NAME=aarch64-qbittorrent-nox;; \
-      "armv7") QBITTORRENT_NAME=armv7-qbittorrent-nox;; \
+      "amd64") export QBITTORRENT_NAME=x86_64-qbittorrent-nox;; \
+      "arm64") export QBITTORRENT_NAME=aarch64-qbittorrent-nox;; \
+      "armv7") export QBITTORRENT_NAME=armv7-qbittorrent-nox;; \
     esac; \
-    GITHUB_SHA256=$(curl -s -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases | jq --raw-output '.[] | select(.tag_name == "'${APP_VERSION}_v${APP_LIBTORRENT_VERSION}'") | .assets[] | select(.name == "'${QBITTORRENT_NAME}'") | .digest' | sed 's/sha256://'); \
-    GITHUB_BIN=$(curl -s -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases | jq --raw-output '.[] | select(.tag_name == "'${APP_VERSION}_v${APP_LIBTORRENT_VERSION}'") | .assets[] | select(.name == "'${QBITTORRENT_NAME}'") | .browser_download_url'); \
+    GITHUB_SHA256=$(curl -s -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases | jq --raw-output '.[] | select(.tag_name == "release-'${APP_VERSION}_v${APP_LIBTORRENT_VERSION}'") | .assets[] | select(.name == "'${QBITTORRENT_NAME}'") | .digest' | sed 's/sha256://'); \
+    GITHUB_BIN=$(curl -s -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases | jq --raw-output '.[] | select(.tag_name == "release-'${APP_VERSION}_v${APP_LIBTORRENT_VERSION}'") | .assets[] | select(.name == "'${QBITTORRENT_NAME}'") | .browser_download_url'); \
     wget ${GITHUB_BIN} -O ${BUILD_BIN}; \
     echo "${GITHUB_SHA256} ${BUILD_BIN}" | sha256sum -c || exit 1
 
   RUN set -ex; \
     mkdir -p /distroless/usr/local/bin; \
+    chmod +x ${BUILD_BIN}; \
     eleven checkStatic ${BUILD_BIN}; \
     eleven strip ${BUILD_BIN}; \
     chmod +x ${BUILD_BIN}; \
