@@ -10,16 +10,19 @@ Run qbittorrent rootless and distroless.
 qBittorrent is a bittorrent client programmed in C++ / Qt that uses libtorrent (sometimes called libtorrent-rasterbar) by Arvid Norberg.
 
 # SYNOPSIS 📖
-**What can I do with this?** This image will run qbittorrent rootless and distroless, for maximum security. Enjoy your adventures on the high sea as safe as it can be.
+**What can I do with this?** This image will run qbittorrent [rootless](https://github.com/11notes/RTFM/blob/main/linux/container/image/rootless.md) and [distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md), for maximum security. Enjoy your adventures on the high sea as safe as it can be.
+
+# UNIQUE VALUE PROPOSITION 💶
+**Why should I run this image and not the other image(s) that already exist?** Good question! Because ...
 
 > [!IMPORTANT]
->* This image runs [rootless](https://github.com/11notes/RTFM/blob/main/linux/container/image/rootless.md) as 1000:1000
->* This image has no shell since it is [distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md)
->* This image runs read-only
->* This image is automatically scanned for CVEs before and after publishing
->* This image is created via a secure and pinned CI/CD process
->* This image verifies all external payloads
->* This image is a lot smaller
+>* ... this image runs [rootless](https://github.com/11notes/RTFM/blob/main/linux/container/image/rootless.md) as 1000:1000
+>* ... this image has no shell since it is [distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md)
+>* ... this image runs read-only
+>* ... this image is automatically scanned for CVEs before and after publishing
+>* ... this image is created via a secure and pinned CI/CD process
+>* ... this image verifies all external payloads
+>* ... this image is very small
 
 If you value security, simplicity and optimizations to the extreme, then this image might be for you.
 
@@ -120,4 +123,4 @@ docker pull quay.io/11notes/qbittorrent:5.1.1
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-qbittorrent/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-qbittorrent/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-qbittorrent/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 01.07.2025, 14:11:15 (CET)*
+*created 01.07.2025, 14:32:48 (CET)*
