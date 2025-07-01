@@ -1,14 +1,15 @@
 ${{ content_synopsis }} This image will run qbittorrent rootless and distroless, for maximum security. Enjoy your adventures on the high sea as safe as it can be.
 
 ${{ github:> [!IMPORTANT] }}
-${{ github:> }}* This image runs as 1000:1000 by default, most other images run everything as root
-${{ github:> }}* This image has no shell since it is distroless, most other images run on a distro like Debian or Alpine with full shell access (security)
-${{ github:> }}* This image does not ship with any critical or high rated CVE and is automatically maintained via CI/CD, most other images mostly have no CVE scanning or code quality tools in place
-${{ github:> }}* This image is created via a secure, pinned CI/CD process and immune to upstream attacks, most other images have upstream dependencies that can be exploited
-${{ github:> }}* This image works as read-only, most other images need to write files to the image filesystem
-${{ github:> }}* This image is a lot smaller than most other images
+${{ github:> }}* This image runs [rootless](https://github.com/11notes/RTFM/blob/main/linux/container/image/rootless.md) as 1000:1000
+${{ github:> }}* This image has no shell since it is [distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md)
+${{ github:> }}* This image runs read-only
+${{ github:> }}* This image is automatically scanned for CVEs before and after publishing
+${{ github:> }}* This image is created via a secure and pinned CI/CD process
+${{ github:> }}* This image verifies all external payloads
+${{ github:> }}* This image is a lot smaller
 
-If you value security, simplicity and the ability to interact with the maintainer and developer of an image. Using my images is a great start in that direction.
+If you value security, simplicity and optimizations to the extreme, then this image might be for you.
 
 ${{ content_comparison }}
 
@@ -19,7 +20,7 @@ ${{ title_volumes }}
 ${{ content_compose }}
 
 ${{ content_defaults }}
-| `login` | admin // qbittorrent | login using compose example |
+| `login` | admin // qbittorrent | login using default config |
 
 ${{ content_environment }}
 
@@ -34,4 +35,3 @@ ${{ content_tips }}
 ${{ title_caution }}
 ${{ github:> [!CAUTION] }}
 ${{ github:> }}* If you use the image with the default configuration, please make sure to change the default web ui login account password or provide your own qBittorrent.conf
-${{ github:> }}* The log file is active in this image by default if using the default configuration. Some people are scared of it, the log is not written to disk though but only to console. Yet in Docker the console output is written to the Docker log file. If you don’t want that, simply disable the log in the web UI
