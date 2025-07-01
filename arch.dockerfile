@@ -5,7 +5,7 @@
   ARG APP_UID=1000 \
       APP_GID=1000 \
       BUILD_ROOT=/ \
-      BUILD_BIN=/qbittorrent \
+      BUILD_BIN=qbittorrent \
       APP_LIBTORRENT_VERSION=2.0.11
 
   # :: FOREIGN IMAGES
@@ -50,7 +50,6 @@
     chmod +x ${BUILD_BIN}; \
     eleven checkStatic ${BUILD_BIN}; \
     eleven strip ${BUILD_BIN}; \
-    chmod +x ${BUILD_BIN}; \
     cp ${BUILD_BIN} /distroless/usr/local/bin;
 
   # :: file system
