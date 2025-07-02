@@ -18,6 +18,7 @@ qBittorrent is a bittorrent client programmed in C++ / Qt that uses libtorrent (
 > [!IMPORTANT]
 >* ... this image runs [rootless](https://github.com/11notes/RTFM/blob/main/linux/container/image/rootless.md) as 1000:1000
 >* ... this image has no shell since it is [distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md)
+>* ... this image has a health check
 >* ... this image runs read-only
 >* ... this image is automatically scanned for CVEs before and after publishing
 >* ... this image is created via a secure and pinned CI/CD process
@@ -31,7 +32,7 @@ Below you find a comparison between this image and the most used or original one
 
 | **image** | 11notes/qbittorrent:5.1.1 | linuxserver/qbittorrent:5.1.1 |
 | ---: | :---: | :---: |
-| **image size on disk** | 19.4MB | 197MB |
+| **image size on disk** | 21.8MB | 197MB |
 | **process UID/GID** | 1000/1000 | 0/0 |
 | **distroless?** | ✅ | ❌ |
 | **rootless?** | ✅ | ❌ |
@@ -123,4 +124,4 @@ docker pull quay.io/11notes/qbittorrent:5.1.1
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-qbittorrent/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-qbittorrent/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-qbittorrent/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 01.07.2025, 14:32:48 (CET)*
+*created 02.07.2025, 21:06:57 (CET)*
