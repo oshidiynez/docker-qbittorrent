@@ -32,8 +32,7 @@
   RUN set -ex; \
     apk --update --no-cache add \
       jq \
-      curl \
-      wget;
+      curl;
 
   RUN set -ex; \
     case "${TARGETARCH}${TARGETVARIANT}" in \
@@ -43,15 +42,11 @@
     esac; \
     GITHUB_SHA256=$(curl -s -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases | jq --raw-output '.[] | select(.tag_name == "release-'${APP_VERSION}_v${APP_LIBTORRENT_VERSION}'") | .assets[] | select(.name == "'${QBITTORRENT_NAME}'") | .digest' | sed 's/sha256://'); \
     GITHUB_BIN=$(curl -s -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases | jq --raw-output '.[] | select(.tag_name == "release-'${APP_VERSION}_v${APP_LIBTORRENT_VERSION}'") | .assets[] | select(.name == "'${QBITTORRENT_NAME}'") | .browser_download_url'); \
-    wget ${GITHUB_BIN} -O ${BUILD_BIN}; \
-    echo "${GITHUB_SHA256} ${BUILD_BIN}" | sha256sum -c || exit 1
+    curl -sSL ${GITHUB_BIN} -o ${BUILD_BIN}; \
+    echo "${GITHUB_SHA256} ${BUILD_BIN}" | sha256sum -c
 
   RUN set -ex; \
-    mkdir -p /distroless/usr/local/bin; \
-    chmod +x ${BUILD_BIN}; \
-    eleven checkStatic ${BUILD_BIN}; \
-    eleven strip ${BUILD_BIN}; \
-    cp ${BUILD_BIN} /distroless/usr/local/bin;
+    eleven distroless ${BUILD_BIN};
 
   # :: file system
   FROM alpine AS file-system
