@@ -10,7 +10,8 @@
 
   # :: FOREIGN IMAGES
   FROM 11notes/distroless AS distroless
-  FROM 11notes/util AS util
+  FROM 11notes/distroless:curl AS distroless-curl
+  FROM 11notes/util:bin AS util
 
 # ╔═════════════════════════════════════════════════════╗
 # ║                       BUILD                         ║
@@ -54,7 +55,7 @@
 
   # :: file system
   FROM alpine AS file-system
-  COPY --from=util /usr/local/bin /usr/local/bin
+  COPY --from=util / /
   ARG APP_ROOT
   USER root
 
@@ -95,12 +96,17 @@
 
   # :: multi-stage
     COPY --from=distroless / /
+    COPY --from=distroless-curl / /
     COPY --from=build /distroless/ /
     COPY --from=file-system --chown=${APP_UID}:${APP_GID} /distroless/ /
     COPY --chown=${APP_UID}:${APP_GID} ./rootfs/ /
 
 # :: PERSISTENT DATA
   VOLUME ["${APP_ROOT}/etc", "${APP_ROOT}/var"]
+
+# :: MONITORING
+  HEALTHCHECK --interval=5s --timeout=2s --start-period=5s \
+    CMD ["/usr/local/bin/curl", "-kILs", "--fail", "-o", "/dev/null", "http://localhost:3000/api/v2/app/version"]
 
 # :: EXECUTE
   USER ${APP_UID}:${APP_GID}
