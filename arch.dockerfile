@@ -11,14 +11,15 @@
   # :: FOREIGN IMAGES
   FROM 11notes/distroless AS distroless
   FROM 11notes/distroless:curl AS distroless-curl
-  FROM 11notes/util:bin AS util
+  FROM 11notes/util:bin AS util-bin
+  FROM 11notes/util AS util
 
 # ╔═════════════════════════════════════════════════════╗
 # ║                       BUILD                         ║
 # ╚═════════════════════════════════════════════════════╝
   # :: qbittorrent
   FROM alpine AS build
-  COPY --from=util / /
+  COPY --from=util-bin / /
   ARG APP_VERSION \
       BUILD_ROOT \
       BUILD_BIN \
