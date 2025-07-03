@@ -10,6 +10,8 @@ services:
       - "qbittorrent.var:/qbittorrent/var"
     ports:
       - "3000:3000/tcp"
+      - "6881:6881/tcp"
+      - "6881:6881/udp"
     networks:
       frontend:
     restart: "always"
