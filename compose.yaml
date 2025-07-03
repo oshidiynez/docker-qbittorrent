@@ -1,7 +1,7 @@
 name: "arr"
 services:
   qbittorrent:
-    image: "11notes/qbittorrent:5.1.1"
+    image: "11notes/qbittorrent:5.1.2"
     read_only: true
     environment:
       TZ: "Europe/Zurich"
