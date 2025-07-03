@@ -2,13 +2,13 @@
   "image": "11notes/qbittorrent",
   "name": "qbittorrent",
   "root": "/qbittorrent",
-  "arch":"linux/amd64,linux/arm64,linux/arm/v7",
+  "arch": "linux/amd64,linux/arm64,linux/arm/v7",
   "semver": {
-    "version": "5.1.1"
+    "version": "5.1.2"
   },
   "readme": {
     "description": "Run qbittorrent rootless and distroless.",
-    "introduction":"qBittorrent is a bittorrent client programmed in C++ / Qt that uses libtorrent (sometimes called libtorrent-rasterbar) by Arvid Norberg.",
+    "introduction": "qBittorrent is a bittorrent client programmed in C++ / Qt that uses libtorrent (sometimes called libtorrent-rasterbar) by Arvid Norberg.",
     "built": {
       "qbittorrent/qBittorrent": "https://github.com/qbittorrent/qBittorrent"
     },
@@ -18,7 +18,7 @@
       ]
     },
     "comparison": {
-      "image": "linuxserver/qbittorrent:5.1.1"
+      "image": "linuxserver/qbittorrent:5.1.2"
     }
   }
 }
