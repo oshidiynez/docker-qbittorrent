@@ -1,0 +1,36 @@
+services:
+  gluetun:
+    image: "qmcgaw/gluetun"
+    cap_add:
+      - "NET_ADMIN"
+    devices:
+      - "/dev/net/tun:/dev/net/tun"
+    environment:
+      TZ: "Europe/Zurich"
+      VPN_SERVICE_PROVIDER: "protonvpn"
+      VPN_TYPE: "wireguard"
+      WIREGUARD_PRIVATE_KEY: ${WIREGUARD_PRIVATE_KEY}
+      FREE_ONLY: "on"
+    ports:
+      - "3000:3000/tcp"
+
+  qbittorrent:
+    depends_on:
+      gluetun:
+        condition: "service_healthy"
+        restart: true
+    image: "11notes/qbittorrent:5.1.2"
+    read_only: true
+    environment:
+      TZ: "Europe/Zurich"
+    volumes:
+      - "qbittorrent.etc:/qbittorrent/etc"
+      - "qbittorrent.var:/qbittorrent/var"
+      - "qbittorrent.downloads:/downloads"
+    network_mode: "service:gluetun"
+    restart: "always"
+
+volumes:
+  qbittorrent.etc:
+  qbittorrent.var:
+  qbittorrent.downloads:
