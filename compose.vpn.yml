@@ -1,3 +1,11 @@
+
+x-lockdown: &lockdown
+  # prevents write access to the image itself
+  read_only: true
+  # prevents any process within the container to gain more privileges
+  security_opt:
+    - "no-new-privileges=true"
+
 services:
   gluetun:
     image: "qmcgaw/gluetun"
@@ -12,7 +20,7 @@ services:
       WIREGUARD_PRIVATE_KEY: ${WIREGUARD_PRIVATE_KEY}
       FREE_ONLY: "on"
     ports:
-      - "3000:3000/tcp"
+      - "3000:8080/tcp"
 
   qbittorrent:
     depends_on:
@@ -20,7 +28,7 @@ services:
         condition: "service_healthy"
         restart: true
     image: "11notes/qbittorrent:5.1.2"
-    read_only: true
+    <<: *lockdown
     environment:
       TZ: "Europe/Zurich"
     volumes:

@@ -1,15 +1,23 @@
 name: "arr"
+
+x-lockdown: &lockdown
+  # prevents write access to the image itself
+  read_only: true
+  # prevents any process within the container to gain more privileges
+  security_opt:
+    - "no-new-privileges=true"
+
 services:
   qbittorrent:
     image: "11notes/qbittorrent:5.1.2"
-    read_only: true
+    <<: *lockdown
     environment:
       TZ: "Europe/Zurich"
     volumes:
       - "qbittorrent.etc:/qbittorrent/etc"
       - "qbittorrent.var:/qbittorrent/var"
     ports:
-      - "3000:3000/tcp"
+      - "3000:8080/tcp"
       - "6881:6881/tcp"
       - "6881:6881/udp"
     networks:

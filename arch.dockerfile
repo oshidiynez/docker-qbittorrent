@@ -1,55 +1,42 @@
 # ╔═════════════════════════════════════════════════════╗
 # ║                       SETUP                         ║
 # ╚═════════════════════════════════════════════════════╝
-  # GLOBAL
+# GLOBAL
   ARG APP_UID=1000 \
       APP_GID=1000 \
-      BUILD_ROOT=/ \
       BUILD_BIN=qbittorrent \
       APP_LIBTORRENT_VERSION=2.0.11
 
-  # :: FOREIGN IMAGES
+# :: FOREIGN IMAGES
   FROM 11notes/distroless AS distroless
-  FROM 11notes/distroless:curl AS distroless-curl
+  FROM 11notes/distroless:localhealth AS distroless-localhealth
   FROM 11notes/util:bin AS util-bin
   FROM 11notes/util AS util
 
 # ╔═════════════════════════════════════════════════════╗
 # ║                       BUILD                         ║
 # ╚═════════════════════════════════════════════════════╝
-  # :: qbittorrent
+# :: QBITTORRENT
   FROM alpine AS build
   COPY --from=util-bin / /
   ARG APP_VERSION \
-      BUILD_ROOT \
       BUILD_BIN \
       TARGETARCH \
       TARGETPLATFORM \
       TARGETVARIANT \
       APP_LIBTORRENT_VERSION
 
-  ENV BUILD_BIN=qbittorrent
-
-  RUN set -ex; \
-    apk --update --no-cache add \
-      jq \
-      curl;
-
   RUN set -ex; \
     case "${TARGETARCH}${TARGETVARIANT}" in \
-      "amd64") export QBITTORRENT_NAME=x86_64-qbittorrent-nox;; \
-      "arm64") export QBITTORRENT_NAME=aarch64-qbittorrent-nox;; \
-      "armv7") export QBITTORRENT_NAME=armv7-qbittorrent-nox;; \
-    esac; \
-    GITHUB_SHA256=$(curl -s -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases | jq --raw-output '.[] | select(.tag_name == "release-'${APP_VERSION}_v${APP_LIBTORRENT_VERSION}'") | .assets[] | select(.name == "'${QBITTORRENT_NAME}'") | .digest' | sed 's/sha256://'); \
-    GITHUB_BIN=$(curl -s -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases | jq --raw-output '.[] | select(.tag_name == "release-'${APP_VERSION}_v${APP_LIBTORRENT_VERSION}'") | .assets[] | select(.name == "'${QBITTORRENT_NAME}'") | .browser_download_url'); \
-    curl -sSL ${GITHUB_BIN} -o ${BUILD_BIN}; \
-    echo "${GITHUB_SHA256} ${BUILD_BIN}" | sha256sum -c
+      "amd64") eleven github asset userdocs/qbittorrent-nox-static release-${APP_VERSION}_v${APP_LIBTORRENT_VERSION} x86_64-qbittorrent-nox; mv x86_64-qbittorrent-nox ${BUILD_BIN};; \
+      "arm64") eleven github asset userdocs/qbittorrent-nox-static release-${APP_VERSION}_v${APP_LIBTORRENT_VERSION} aarch64-qbittorrent-nox; mv aarch64-qbittorrent-nox ${BUILD_BIN};; \
+      "armv7") eleven github asset userdocs/qbittorrent-nox-static release-${APP_VERSION}_v${APP_LIBTORRENT_VERSION} armv7-qbittorrent-nox; mv armv7-qbittorrent-nox ${BUILD_BIN};; \
+    esac;
 
   RUN set -ex; \
     eleven distroless ${BUILD_BIN};
 
-  # :: file system
+# :: FILE SYSTEM
   FROM alpine AS file-system
   COPY --from=util / /
   ARG APP_ROOT
@@ -68,7 +55,7 @@
 # ╔═════════════════════════════════════════════════════╗
 # ║                       IMAGE                         ║
 # ╚═════════════════════════════════════════════════════╝
-  # :: HEADER
+# :: HEADER
   FROM scratch
 
   # :: default arguments
@@ -92,7 +79,7 @@
 
   # :: multi-stage
     COPY --from=distroless / /
-    COPY --from=distroless-curl / /
+    COPY --from=distroless-localhealth / /
     COPY --from=build /distroless/ /
     COPY --from=file-system --chown=${APP_UID}:${APP_GID} /distroless/ /
     COPY --chown=${APP_UID}:${APP_GID} ./rootfs/ /
@@ -102,7 +89,7 @@
 
 # :: MONITORING
   HEALTHCHECK --interval=5s --timeout=2s --start-period=5s \
-    CMD ["/usr/local/bin/curl", "-kILs", "--fail", "-o", "/dev/null", "http://localhost:3000/api/v2/app/version"]
+    CMD ["/usr/local/bin/localhealth", "http://127.0.0.1:8080/api/v2/app/version", "-I"]
 
 # :: EXECUTE
   USER ${APP_UID}:${APP_GID}
