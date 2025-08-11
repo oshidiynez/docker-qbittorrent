@@ -1,3 +1,4 @@
+name: "arr.vpn"
 
 x-lockdown: &lockdown
   # prevents write access to the image itself
