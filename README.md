@@ -33,7 +33,7 @@ Below you find a comparison between this image and the most used or original one
 
 | **image** | 11notes/qbittorrent:5.1.2 | linuxserver/qbittorrent:5.1.2 |
 | ---: | :---: | :---: |
-| **image size on disk** | 21.8MB | 198MB |
+| **image size on disk** | 17.3MB | 197MB |
 | **process UID/GID** | 1000/1000 | 0/0 |
 | **distroless?** | ✅ | ❌ |
 | **rootless?** | ✅ | ❌ |
@@ -46,17 +46,25 @@ Below you find a comparison between this image and the most used or original one
 # COMPOSE ✂️
 ```yaml
 name: "arr"
+
+x-lockdown: &lockdown
+  # prevents write access to the image itself
+  read_only: true
+  # prevents any process within the container to gain more privileges
+  security_opt:
+    - "no-new-privileges=true"
+
 services:
   qbittorrent:
     image: "11notes/qbittorrent:5.1.2"
-    read_only: true
+    <<: *lockdown
     environment:
       TZ: "Europe/Zurich"
     volumes:
       - "qbittorrent.etc:/qbittorrent/etc"
       - "qbittorrent.var:/qbittorrent/var"
     ports:
-      - "3000:3000/tcp"
+      - "3000:8080/tcp"
       - "6881:6881/tcp"
       - "6881:6881/udp"
     networks:
@@ -129,4 +137,4 @@ docker pull quay.io/11notes/qbittorrent:5.1.2
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-qbittorrent/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-qbittorrent/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-qbittorrent/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 27.07.2025, 12:53:32 (CET)*
+*created 11.08.2025, 12:18:29 (CET)*
