@@ -10,7 +10,7 @@ Run qbittorrent rootless and distroless.
 qBittorrent is a bittorrent client programmed in C++ / Qt that uses libtorrent (sometimes called libtorrent-rasterbar) by Arvid Norberg.
 
 # SYNOPSIS 📖
-**What can I do with this?** This image will run qbittorrent [rootless](https://github.com/11notes/RTFM/blob/main/linux/container/image/rootless.md) and [distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md), for maximum security. Enjoy your adventures on the high sea as safe as it can be.
+**What can I do with this?** This image will run qbittorrent [rootless](https://github.com/11notes/RTFM/blob/main/linux/container/image/rootless.md) and [distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md), for maximum security. Enjoy your adventures on the high sea as safe[^1] as it can be.
 
 # UNIQUE VALUE PROPOSITION 💶
 **Why should I run this image and not the other image(s) that already exist?** Good question! Because ...
@@ -18,6 +18,7 @@ qBittorrent is a bittorrent client programmed in C++ / Qt that uses libtorrent (
 > [!IMPORTANT]
 >* ... this image runs [rootless](https://github.com/11notes/RTFM/blob/main/linux/container/image/rootless.md) as 1000:1000
 >* ... this image has no shell since it is [distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md)
+>* ... this image is auto updated to the latest version via CI/CD
 >* ... this image has a health check
 >* ... this image runs read-only
 >* ... this image is automatically scanned for CVEs before and after publishing
@@ -32,7 +33,7 @@ Below you find a comparison between this image and the most used or original one
 
 | **image** | 11notes/qbittorrent:5.1.2 | linuxserver/qbittorrent:5.1.2 |
 | ---: | :---: | :---: |
-| **image size on disk** | 21.8MB | 204MB |
+| **image size on disk** | 21.8MB | 198MB |
 | **process UID/GID** | 1000/1000 | 0/0 |
 | **distroless?** | ✅ | ❌ |
 | **rootless?** | ✅ | ❌ |
@@ -56,6 +57,8 @@ services:
       - "qbittorrent.var:/qbittorrent/var"
     ports:
       - "3000:3000/tcp"
+      - "6881:6881/tcp"
+      - "6881:6881/udp"
     networks:
       frontend:
     restart: "always"
@@ -121,7 +124,9 @@ docker pull quay.io/11notes/qbittorrent:5.1.2
 > [!CAUTION]
 >* If you use the image with the default configuration, please make sure to change the default web ui login account password or provide your own qBittorrent.conf
 
+[^1]: Check the [compose.vpn.yml](https://github.com/11notes/docker-qbittorrent/blob/master/compose.vpn.yml) example on how to use this image with a VPN provider like gluetun.
+
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-qbittorrent/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-qbittorrent/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-qbittorrent/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 03.07.2025, 07:30:38 (CET)*
+*created 27.07.2025, 12:53:32 (CET)*
