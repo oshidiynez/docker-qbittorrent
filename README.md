@@ -25,19 +25,18 @@ qBittorrent is a bittorrent client programmed in C++ / Qt that uses libtorrent (
 >* ... this image is created via a secure and pinned CI/CD process
 >* ... this image verifies all external payloads
 >* ... this image is very small
+>* ... this image is provided as a single manifest for amd64, arm64 and armhf (arm v7)
 
 If you value security, simplicity and optimizations to the extreme, then this image might be for you.
 
 # COMPARISON 🏁
 Below you find a comparison between this image and the most used or original one.
 
-| **image** | 11notes/qbittorrent:5.1.2 | linuxserver/qbittorrent:5.1.2 |
-| ---: | :---: | :---: |
-| **image size on disk** | 17.3MB | 197MB |
-| **process UID/GID** | 1000/1000 | 0/0 |
-| **distroless?** | ✅ | ❌ |
-| **rootless?** | ✅ | ❌ |
-
+| **image** | **size on disk** | **starts default as ([rootless](https://github.com/11notes/RTFM/blob/main/linux/container/image/rootless.md))** | **[distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md)** |
+| ---: | ---: | :---: | :---: |
+| 11notes/qbittorrent:5.1.2 | 17.4MB | 1000:1000 | ✅ |
+| linuxserver/qbittorrent | 197MB | 0:0 | ❌ |
+| gists/qbittorrent | 129MB | 0:0 | ❌ |
 
 # VOLUMES 📁
 * **/qbittorrent/etc** - Directory of your qBittorrent.conf and other files
@@ -137,4 +136,4 @@ docker pull quay.io/11notes/qbittorrent:5.1.2
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-qbittorrent/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-qbittorrent/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-qbittorrent/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 11.08.2025, 12:18:29 (CET)*
+*created 19.08.2025, 15:11:12 (CET)*
