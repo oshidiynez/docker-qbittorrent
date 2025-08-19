@@ -17,7 +17,7 @@
       ]
     },
     "comparison": {
-      "images": ["linuxserver/qbittorrent", "hotio/qbittorrent"]
+      "images": ["linuxserver/qbittorrent", "hotio/qbittorrent", "ghcr.io/home-operations/qbittorrent:rolling"]
     }
   }
 }
