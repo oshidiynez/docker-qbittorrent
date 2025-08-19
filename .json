@@ -17,7 +17,7 @@
       ]
     },
     "comparison": {
-      "image": "linuxserver/qbittorrent:5.1.2"
+      "images": ["linuxserver/qbittorrent", "gists/qbittorrent"]
     }
   }
 }
