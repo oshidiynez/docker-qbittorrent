@@ -17,7 +17,7 @@
       ]
     },
     "comparison": {
-      "images": ["linuxserver/qbittorrent", "gists/qbittorrent"]
+      "images": ["linuxserver/qbittorrent", "hotio/qbittorrent"]
     }
   }
 }
