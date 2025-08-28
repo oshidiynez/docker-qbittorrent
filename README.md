@@ -34,7 +34,7 @@ Below you find a comparison between this image and the most used or original one
 
 | **image** | **size on disk** | **init default as** | **[distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md)** | supported architectures
 | ---: | ---: | :---: | :---: | :---: |
-| 11notes/qbittorrent:5.1.2 | 17MB | 1000:1000 | ✅ | arm64, amd64, arm |
+| 11notes/qbittorrent:5.1.2 | 17MB | 1000:1000 | ✅ | arm64, amd64, armv7 |
 | home-operations/qbittorrent | 110MB | 65534:65533 | ❌ | amd64, arm64 |
 | hotio/qbittorrent | 159MB | 0:0 | ❌ | amd64, arm64 |
 | linuxserver/qbittorrent | 197MB | 0:0 | ❌ | amd64, arm64 |
@@ -137,4 +137,4 @@ docker pull quay.io/11notes/qbittorrent:5.1.2
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-qbittorrent/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-qbittorrent/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-qbittorrent/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 20.08.2025, 01:17:34 (CET)*
+*created 28.08.2025, 15:04:07 (CET)*
