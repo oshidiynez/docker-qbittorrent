@@ -17,9 +17,9 @@ This image is part of the so called arr-stack (apps to pirate and manage media c
 
 - [11notes/plex](https://github.com/11notes/docker-plex) - as your media server
 - [11notes/prowlarr](https://github.com/11notes/docker-prowlarr) - to manage all your indexers
-- [11notes/radarr](https://github.com/11notes/docker-radarr) - to manage your TV shows
+- [11notes/radarr](https://github.com/11notes/docker-radarr) - to manage your films
 - [11notes/sabnzbd](https://github.com/11notes/docker-sabnzbd) - as your usenet client
-- [11notes/sonarr](https://github.com/11notes/docker-sonarr) - to manage your films
+- [11notes/sonarr](https://github.com/11notes/docker-sonarr) - to manage your TV shows
 
 # UNIQUE VALUE PROPOSITION 💶
 **Why should I run this image and not the other image(s) that already exist?** Good question! Because ...
@@ -43,7 +43,7 @@ Below you find a comparison between this image and the most used or original one
 
 | **image** | **size on disk** | **init default as** | **[distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md)** | supported architectures
 | ---: | ---: | :---: | :---: | :---: |
-| 11notes/qbittorrent:5.1.2 | 17MB | 99:100 | ✅ | amd64, arm64, armv7 |
+| 11notes/qbittorrent:5.1.2 | 17MB | 1000:1000 | ✅ | amd64, arm64, armv7 |
 | home-operations/qbittorrent | 111MB | 65534:65533 | ❌ | amd64, arm64 |
 | hotio/qbittorrent | 159MB | 0:0 | ❌ | amd64, arm64 |
 | linuxserver/qbittorrent | 197MB | 0:0 | ❌ | amd64, arm64 |
@@ -151,4 +151,4 @@ This image supports unraid by default. Simply add **-unraid** to any tag and the
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-qbittorrent/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-qbittorrent/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-qbittorrent/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 11.09.2025, 14:31:41 (CET)*
+*created 11.09.2025, 15:24:59 (CET)*
