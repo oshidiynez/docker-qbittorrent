@@ -1,4 +1,4 @@
-${{ content_synopsis }} This image will give you a [rootless](https://github.com/11notes/RTFM/blob/main/linux/container/image/rootless.md) and [distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md) qbittorrent installation for your adventures on the high seas *arrrr*! Enjoy your adventures on the high sea as safe[^1] as it can be.
+${{ content_synopsis }} This image will give you a [rootless](https://github.com/11notes/RTFM/blob/main/linux/container/image/rootless.md) and [distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md) qBittorrent installation for your adventures on the high seas[^1] *arrrr*!
 
 ${{ content_arr_stack }}
 
