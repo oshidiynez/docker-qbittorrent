@@ -49,7 +49,8 @@
     ln -sf ${APP_ROOT}/etc /distroless/opt/qBittorrent/config; \
     ln -sf ${APP_ROOT}/var /distroless/opt/qBittorrent/data; \
     ln -sf ${APP_ROOT}/cache /distroless/opt/qBittorrent/cache; \
-    ln -sf /dev/stdout /distroless/opt/qBittorrent/logs/qbittorrent.log;
+    ln -sf /dev/stdout /distroless/opt/qBittorrent/logs/qbittorrent.log; \
+    chmod -R 0755 /distroless/opt/qBittorrent;
 
 
 # ╔═════════════════════════════════════════════════════╗
