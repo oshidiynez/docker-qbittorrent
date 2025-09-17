@@ -43,9 +43,10 @@ Below you find a comparison between this image and the most used or original one
 
 | **image** | **size on disk** | **init default as** | **[distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md)** | supported architectures
 | ---: | ---: | :---: | :---: | :---: |
-| 11notes/qbittorrent:5.1.2 | 17MB | 99:100 | ✅ | amd64, arm64, armv7 |
+| 11notes/qbittorrent:5.1.2 | 17MB | 1000:1000 | ✅ | amd64, arm64, armv7 |
 | home-operations/qbittorrent | 111MB | 65534:65533 | ❌ | amd64, arm64 |
 | hotio/qbittorrent | 159MB | 0:0 | ❌ | amd64, arm64 |
+| qbittorrentofficial/qbittorrent-nox | 172MB | 0:0 | ❌ | 386, amd64, arm64, armv6, armv7, riscv64 |
 | linuxserver/qbittorrent | 198MB | 0:0 | ❌ | amd64, arm64 |
 
 # VOLUMES 📁
@@ -153,4 +154,4 @@ This image supports unraid by default. Simply add **-unraid** to any tag and the
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-qbittorrent/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-qbittorrent/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-qbittorrent/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 17.09.2025, 20:32:45 (CET)*
+*created 17.09.2025, 20:34:08 (CET)*
