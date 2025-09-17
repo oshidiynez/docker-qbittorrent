@@ -43,6 +43,5 @@ ${{ content_tips }}
 ${{ title_caution }}
 ${{ github:> [!CAUTION] }}
 ${{ github:> }}* If you use the image with the default configuration, please make sure to change the default web ui login account password or provide your own qBittorrent.conf!
-${{ github:> }}* This image contains the freeware (not open source) unrar!
 
 [^1]: Check the [compose.vpn.yml](https://github.com/11notes/docker-qbittorrent/blob/master/compose.vpn.yml) example on how to use this image with a VPN provider like gluetun.

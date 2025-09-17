@@ -14,7 +14,6 @@
   FROM 11notes/distroless AS distroless
   FROM 11notes/distroless:localhealth AS distroless-localhealth
   FROM 11notes/distroless:qt-minimal-${QT_VERSION} AS distroless-qt
-  FROM 11notes/distroless:unrar AS distroless-unrar
   FROM 11notes/util:bin AS util-bin
   FROM 11notes/util AS util
 
@@ -174,7 +173,6 @@
   # :: multi-stage
     COPY --from=distroless / /
     COPY --from=distroless-localhealth / /
-    COPY --from=distroless-unrar / /
     COPY --from=build /distroless/ /
     COPY --from=file-system --chown=${APP_UID}:${APP_GID} /distroless/ /
     COPY --chown=${APP_UID}:${APP_GID} ./rootfs/ /
