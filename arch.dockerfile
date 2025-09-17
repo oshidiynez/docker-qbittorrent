@@ -4,43 +4,136 @@
 # GLOBAL
   ARG APP_UID=1000 \
       APP_GID=1000 \
-      BUILD_BIN=qbittorrent \
+      QT_VERSION=6.9.2 \
+      APP_OPENSSL_VERSION=3.5.3 \
+      APP_BOOST_VERSION=1.89.0 \
+      APP_ZLIB_VERSION=1.3.1 \
       APP_LIBTORRENT_VERSION=2.0.11
 
 # :: FOREIGN IMAGES
   FROM 11notes/distroless AS distroless
   FROM 11notes/distroless:localhealth AS distroless-localhealth
+  FROM 11notes/distroless:qt-minimal-${QT_VERSION} AS distroless-qt
+  FROM 11notes/distroless:unrar AS distroless-unrar
   FROM 11notes/util:bin AS util-bin
   FROM 11notes/util AS util
 
 # ╔═════════════════════════════════════════════════════╗
 # ║                       BUILD                         ║
 # ╚═════════════════════════════════════════════════════╝
-# :: QBITTORRENT
+# :: OPENSSL & ZLIB
   FROM alpine AS build
+  COPY --from=distroless-qt / /
   COPY --from=util-bin / /
+
   ARG APP_VERSION \
-      BUILD_BIN \
       TARGETARCH \
-      TARGETPLATFORM \
       TARGETVARIANT \
+      APP_OPENSSL_VERSION \
+      APP_BOOST_VERSION \
+      APP_ZLIB_VERSION \
       APP_LIBTORRENT_VERSION
 
   RUN set -ex; \
-    case "${TARGETARCH}${TARGETVARIANT}" in \
-      "amd64") eleven github asset userdocs/qbittorrent-nox-static release-${APP_VERSION}_v${APP_LIBTORRENT_VERSION} x86_64-qbittorrent-nox; mv x86_64-qbittorrent-nox ${BUILD_BIN};; \
-      "arm64") eleven github asset userdocs/qbittorrent-nox-static release-${APP_VERSION}_v${APP_LIBTORRENT_VERSION} aarch64-qbittorrent-nox; mv aarch64-qbittorrent-nox ${BUILD_BIN};; \
-      "armv7") eleven github asset userdocs/qbittorrent-nox-static release-${APP_VERSION}_v${APP_LIBTORRENT_VERSION} armv7-qbittorrent-nox; mv armv7-qbittorrent-nox ${BUILD_BIN};; \
-    esac;
+    apk --update --no-cache add \
+      perl \
+      g++ \
+      make \
+      linux-headers \
+      git \
+      cmake \
+      build-base \
+      samurai \
+      python3 \
+      py3-pkgconfig \
+      pkgconfig;
+
+  # BOOST
+  RUN set -ex; \
+    eleven github asset boostorg/boost boost-${APP_BOOST_VERSION} boost-${APP_BOOST_VERSION}-b2-nodocs.tar.gz;
+
+  # OPENSSL
+  RUN set -ex; \
+    eleven github asset openssl/openssl openssl-${APP_OPENSSL_VERSION} openssl-${APP_OPENSSL_VERSION}.tar.gz;
 
   RUN set -ex; \
-    eleven distroless ${BUILD_BIN};
+    cd /openssl-${APP_OPENSSL_VERSION}; \
+    case "${TARGETARCH}${TARGETVARIANT}" in \
+      "amd64"|"arm64") \
+        ./Configure \
+          -static \
+          --openssldir=/etc/ssl; \
+      ;; \
+      \
+      "armv7") \
+        ./Configure \
+          linux-generic32 \
+          -static \
+          --openssldir=/etc/ssl; \
+      ;; \
+    esac; \
+    make -s -j $(nproc) 2>&1 > /dev/null; \
+    make -s -j $(nproc) install_sw 2>&1 > /dev/null; \
+    cp -af /openssl-${APP_OPENSSL_VERSION}/libssl.a /usr/lib; \
+    cp -af /openssl-${APP_OPENSSL_VERSION}/libcrypto.a /usr/lib;
+
+  # ZLIB
+  RUN set -ex; \
+    eleven github asset madler/zlib v${APP_ZLIB_VERSION} zlib-${APP_ZLIB_VERSION}.tar.gz;
+
+  RUN set -ex; \
+    cd /zlib-${APP_ZLIB_VERSION}; \
+    ./configure --static; \
+    make -s -j $(nproc) 2>&1 > /dev/null; \
+    make -s -j $(nproc) install 2>&1 > /dev/null;
+
+  # LIBTORRENT
+  RUN set -ex; \
+    eleven github asset arvidn/libtorrent v${APP_LIBTORRENT_VERSION} libtorrent-rasterbar-${APP_LIBTORRENT_VERSION}.tar.gz;  
+
+  RUN set -ex; \
+    cd /libtorrent-rasterbar-${APP_LIBTORRENT_VERSION}; \
+    cmake -Wno-dev -B build -G Ninja \
+      -DCMAKE_BUILD_TYPE="Release" \
+      -DBOOST_INCLUDEDIR="/boost-${APP_BOOST_VERSION}/" \
+      -DCMAKE_CXX_STANDARD=17 \
+      -DCMAKE_INSTALL_LIBDIR="lib" \
+      -DCMAKE_INSTALL_PREFIX="/usr/local" \
+      -DCMAKE_EXE_LINKER_FLAGS="-static" \
+      -DBUILD_SHARED_LIBS=OFF \
+      -DOPENSSL_USE_STATIC_LIBS=TRUE; \
+    cmake --build build; \
+    cmake --install build;
+
+  # QBITTORRENT
+  RUN set -ex; \
+    eleven git clone qbittorrent/qBittorrent.git release-${APP_VERSION};
+
+  RUN set -ex; \
+    cd /qBittorrent; \
+    QT_BASE_DIR="/opt/qt" \
+    LD_LIBRARY_PATH="/opt/qt/lib" \
+      cmake -Wno-dev -B build -G Ninja \
+        -DQT6=ON \
+        -DGUI=OFF \
+        -DSTACKTRACE=OFF \
+        -DBUILD_SHARED_LIBS=OFF \
+        -DCMAKE_PREFIX_PATH="/opt/qt" \
+        -DCMAKE_BUILD_TYPE="Release" \
+        -DBOOST_INCLUDEDIR="/boost-${APP_BOOST_VERSION}/" \
+        -DCMAKE_CXX_STANDARD="17" \
+        -DCMAKE_EXE_LINKER_FLAGS="-static"; \
+    cmake --build build; \
+    cmake --install build;
+
+  RUN set -ex; \
+    mv /usr/local/bin/qbittorrent-nox /usr/local/bin/qbittorrent; \
+    eleven distroless /usr/local/bin/qbittorrent;
 
 # :: FILE SYSTEM
   FROM alpine AS file-system
   COPY --from=util / /
   ARG APP_ROOT
-  USER root
 
   RUN set -ex; \
     eleven mkdir /distroless${APP_ROOT}/{etc,var,cache}; \
@@ -81,6 +174,7 @@
   # :: multi-stage
     COPY --from=distroless / /
     COPY --from=distroless-localhealth / /
+    COPY --from=distroless-unrar / /
     COPY --from=build /distroless/ /
     COPY --from=file-system --chown=${APP_UID}:${APP_GID} /distroless/ /
     COPY --chown=${APP_UID}:${APP_GID} ./rootfs/ /
