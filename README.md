@@ -27,13 +27,13 @@ This image is part of the so called arr-stack (apps to pirate and manage media c
 > [!IMPORTANT]
 >* ... this image runs [rootless](https://github.com/11notes/RTFM/blob/main/linux/container/image/rootless.md) as 1000:1000
 >* ... this image has no shell since it is [distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md)
->* ... this image is auto updated to the latest version via CI/CD
+>* ... this image is built and compiled from source (no qbittorrent-nox!)
 >* ... this image supports 32bit architecture
+>* ... this image is auto updated to the latest version via CI/CD
 >* ... this image has a health check
 >* ... this image runs read-only
 >* ... this image is automatically scanned for CVEs before and after publishing
 >* ... this image is created via a secure and pinned CI/CD process
->* ... this image verifies all external payloads
 >* ... this image is very small
 
 If you value security, simplicity and optimizations to the extreme, then this image might be for you.
@@ -43,7 +43,7 @@ Below you find a comparison between this image and the most used or original one
 
 | **image** | **size on disk** | **init default as** | **[distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md)** | supported architectures
 | ---: | ---: | :---: | :---: | :---: |
-| 11notes/qbittorrent:5.1.2 | 17MB | 1000:1000 | ✅ | amd64, arm64, armv7 |
+| 11notes/qbittorrent:5.1.2 | 17MB | 99:100 | ✅ | amd64, arm64, armv7 |
 | home-operations/qbittorrent | 111MB | 65534:65533 | ❌ | amd64, arm64 |
 | hotio/qbittorrent | 159MB | 0:0 | ❌ | amd64, arm64 |
 | linuxserver/qbittorrent | 198MB | 0:0 | ❌ | amd64, arm64 |
@@ -97,6 +97,7 @@ To find out how you can change the default UID/GID of this container image, cons
 | `gid` | 1000 | [group identifier](https://en.wikipedia.org/wiki/Group_identifier) |
 | `home` | /qbittorrent | home directory of user docker |
 | `login` | admin // qbittorrent | login using default config |
+| `AdditionalTrackersURL` | [ngosang/trackerslist](https://raw.githubusercontent.com/ngosang/trackerslist/refs/heads/master/trackers_best.txt) | additional trackers that will be added to every torrent |
 
 # ENVIRONMENT 📝
 | Parameter | Value | Default |
@@ -145,11 +146,12 @@ This image supports unraid by default. Simply add **-unraid** to any tag and the
 
 # CAUTION ⚠️
 > [!CAUTION]
->* If you use the image with the default configuration, please make sure to change the default web ui login account password or provide your own qBittorrent.conf
+>* If you use the image with the default configuration, please make sure to change the default web ui login account password or provide your own qBittorrent.conf!
+>* This image contains the freeware (not open source) unrar!
 
 [^1]: Check the [compose.vpn.yml](https://github.com/11notes/docker-qbittorrent/blob/master/compose.vpn.yml) example on how to use this image with a VPN provider like gluetun.
 
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-qbittorrent/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-qbittorrent/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-qbittorrent/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 15.09.2025, 11:08:50 (CET)*
+*created 17.09.2025, 12:11:05 (CET)*
