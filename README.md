@@ -27,7 +27,7 @@ This image is part of the so called arr-stack (apps to pirate and manage media c
 > [!IMPORTANT]
 >* ... this image runs [rootless](https://github.com/11notes/RTFM/blob/main/linux/container/image/rootless.md) as 1000:1000
 >* ... this image has no shell since it is [distroless](https://github.com/11notes/RTFM/blob/main/linux/container/image/distroless.md)
->* ... this image is built and compiled from source (no qbittorrent-nox!)
+>* ... this image is built and compiled from source (no userdocs/qbittorrent-nox!)
 >* ... this image supports 32bit architecture
 >* ... this image is auto updated to the latest version via CI/CD
 >* ... this image has a health check
@@ -154,4 +154,4 @@ This image supports unraid by default. Simply add **-unraid** to any tag and the
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-qbittorrent/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-qbittorrent/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-qbittorrent/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 17.09.2025, 12:14:17 (CET)*
+*created 17.09.2025, 12:21:27 (CET)*
