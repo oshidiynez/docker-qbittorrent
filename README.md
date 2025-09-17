@@ -46,7 +46,7 @@ Below you find a comparison between this image and the most used or original one
 | 11notes/qbittorrent:5.1.2 | 17MB | 1000:1000 | ✅ | amd64, arm64, armv7 |
 | home-operations/qbittorrent | 111MB | 65534:65533 | ❌ | amd64, arm64 |
 | hotio/qbittorrent | 159MB | 0:0 | ❌ | amd64, arm64 |
-| linuxserver/qbittorrent | 197MB | 0:0 | ❌ | amd64, arm64 |
+| linuxserver/qbittorrent | 198MB | 0:0 | ❌ | amd64, arm64 |
 
 # VOLUMES 📁
 * **/qbittorrent/etc** - Directory of your qBittorrent.conf and other files
@@ -87,6 +87,7 @@ volumes:
 networks:
   frontend:
 ```
+To find out how you can change the default UID/GID of this container image, consult the [how-to.changeUIDGID](https://github.com/11notes/RTFM/blob/main/linux/container/image/11notes/how-to.changeUIDGID.md#change-uidgid-the-correct-way) section of my [RTFM](https://github.com/11notes/RTFM)
 
 # DEFAULT SETTINGS 🗃️
 | Parameter | Value | Description |
@@ -151,4 +152,4 @@ This image supports unraid by default. Simply add **-unraid** to any tag and the
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-qbittorrent/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-qbittorrent/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-qbittorrent/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 11.09.2025, 15:24:59 (CET)*
+*created 15.09.2025, 11:08:50 (CET)*
