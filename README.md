@@ -107,8 +107,8 @@ To find out how you can change the default UID/GID of this container image, cons
 | --- | --- | --- |
 | `TZ` | [Time Zone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) | |
 | `DEBUG` | Will activate debug option for container image and app (if available) | |
-| `QBITTORRENT_USER_AGENT` | sets the user-agent to a custom value if needed | qBittorrent/${{ json_semve_version_ }} |
-| `QBITTORRENT_PEER_ID` | sets the peer ID to a custom value if needed | -qB${{ json_semve_version_ }}- |
+| `QBITTORRENT_USER_AGENT` | sets the user-agent to a custom value if needed | qBittorrent/5.1.2 |
+| `QBITTORRENT_PEER_ID` | sets the peer ID to a custom value if needed | -qB5.1.2- |
 
 # MAIN TAGS 🏷️
 These are the main tags for the image. There is also a tag for each commit and its shorthand sha256 value.
@@ -158,4 +158,4 @@ This image supports unraid by default. Simply add **-unraid** to any tag and the
 # ElevenNotes™️
 This image is provided to you at your own risk. Always make backups before updating an image to a different version. Check the [releases](https://github.com/11notes/docker-qbittorrent/releases) for breaking changes. If you have any problems with using this image simply raise an [issue](https://github.com/11notes/docker-qbittorrent/issues), thanks. If you have a question or inputs please create a new [discussion](https://github.com/11notes/docker-qbittorrent/discussions) instead of an issue. You can find all my other repositories on [github](https://github.com/11notes?tab=repositories).
 
-*created 23.09.2025, 17:17:09 (CET)*
+*created 23.09.2025, 17:26:10 (CET)*
