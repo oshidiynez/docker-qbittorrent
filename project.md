@@ -32,8 +32,8 @@ ${{ content_defaults }}
 | `AdditionalTrackersURL` | [ngosang/trackerslist](https://raw.githubusercontent.com/ngosang/trackerslist/refs/heads/master/trackers_best.txt) | additional trackers that will be added to every torrent |
 
 ${{ content_environment }}
-| `QBITTORRENT_USER_AGENT` | sets the user-agent to a custom value if needed | qBittorrent/${{ json_semve_version_ }} |
-| `QBITTORRENT_PEER_ID` | sets the peer ID to a custom value if needed | -qB${{ json_semve_version_ }}- |
+| `QBITTORRENT_USER_AGENT` | sets the user-agent to a custom value if needed | qBittorrent/${{ json_semver_version }} |
+| `QBITTORRENT_PEER_ID` | sets the peer ID to a custom value if needed | -qB${{ json_semver_version }}- |
 
 ${{ content_source }}
 
