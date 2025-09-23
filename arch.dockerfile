@@ -109,6 +109,13 @@
     eleven git clone qbittorrent/qBittorrent.git release-${APP_VERSION};
 
   RUN set -ex; \
+    # add custom user agent and peer ID variables
+    sed -i 's|USER_AGENT.toStdString()|getenv("QBITTORRENT_USER_AGENT")|g' /qBittorrent/src/base/bittorrent/sessionimpl.cpp; \
+    sed -i 's|arg(USER_AGENT)|arg(getenv("QBITTORRENT_USER_AGENT"))|g' /qBittorrent/src/base/bittorrent/sessionimpl.cpp; \
+    sed -i 's|lt::generate_fingerprint(PEER_ID, QBT_VERSION_MAJOR, QBT_VERSION_MINOR, QBT_VERSION_BUGFIX, QBT_VERSION_BUILD);|getenv("QBITTORRENT_PEER_ID");|g' /qBittorrent/src/base/bittorrent/sessionimpl.cpp; \
+    sed -i '1i #include <stdlib.h>' /qBittorrent/src/base/bittorrent/sessionimpl.cpp;
+
+  RUN set -ex; \
     cd /qBittorrent; \
     QT_BASE_DIR="/opt/qt" \
     LD_LIBRARY_PATH="/opt/qt/lib" \
@@ -169,6 +176,10 @@
         APP_NAME=${APP_NAME} \
         APP_VERSION=${APP_VERSION} \
         APP_ROOT=${APP_ROOT}
+
+  # :: app specific environment
+    ENV QBITTORRENT_USER_AGENT="qBittorrent/${APP_VERSION}" \
+        QBITTORRENT_PEER_ID="-qB${APP_VERSION}-"
 
   # :: multi-stage
     COPY --from=distroless / /
