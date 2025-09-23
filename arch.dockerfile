@@ -8,7 +8,8 @@
       APP_OPENSSL_VERSION=3.5.3 \
       APP_BOOST_VERSION=1.89.0 \
       APP_ZLIB_VERSION=1.3.1 \
-      APP_LIBTORRENT_VERSION=2.0.11
+      APP_LIBTORRENT_VERSION=2.0.11 \
+      APP_VUETORRENT_VERSION=2.30.1
 
 # :: FOREIGN IMAGES
   FROM 11notes/distroless AS distroless
@@ -136,6 +137,17 @@
     mv /usr/local/bin/qbittorrent-nox /usr/local/bin/qbittorrent; \
     eleven distroless /usr/local/bin/qbittorrent;
 
+# :: VUE TORRENT
+  FROM alpine AS vuetorrent
+  ARG APP_VUETORRENT_VERSION \
+      APP_ROOT
+  COPY --from=util-bin / /
+
+  RUN set -ex; \
+    eleven github asset VueTorrent/VueTorrent v${APP_VUETORRENT_VERSION} vuetorrent.zip; \
+    mkdir -p /distroless${APP_ROOT}/themes; \
+    mv /vuetorrent /distroless${APP_ROOT}/themes;
+
 # :: FILE SYSTEM
   FROM alpine AS file-system
   COPY --from=util / /
@@ -186,10 +198,11 @@
     COPY --from=distroless-localhealth / /
     COPY --from=build /distroless/ /
     COPY --from=file-system --chown=${APP_UID}:${APP_GID} /distroless/ /
+    COPY --from=vuetorrent --chown=${APP_UID}:${APP_GID} /distroless/ /
     COPY --chown=${APP_UID}:${APP_GID} ./rootfs/ /
 
 # :: PERSISTENT DATA
-  VOLUME ["${APP_ROOT}/etc", "${APP_ROOT}/var"]
+  VOLUME ["${APP_ROOT}/etc", "${APP_ROOT}/var", "${APP_ROOT}/themes"]
 
 # :: MONITORING
   HEALTHCHECK --interval=5s --timeout=2s --start-period=5s \

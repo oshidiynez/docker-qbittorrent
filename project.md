@@ -23,6 +23,7 @@ ${{ content_comparison }}
 ${{ title_volumes }}
 * **${{ json_root }}/etc** - Directory of your qBittorrent.conf and other files
 * **${{ json_root }}/var** - Directory of your SQlite database for qBittorrent
+* **${{ json_root }}/themes (optional)** - Directory of your alternate themes, VueTorrent is already present
 
 ${{ content_compose }}
 
