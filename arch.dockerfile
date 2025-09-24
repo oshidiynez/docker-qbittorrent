@@ -1,7 +1,7 @@
 # ╔═════════════════════════════════════════════════════╗
 # ║                       SETUP                         ║
 # ╚═════════════════════════════════════════════════════╝
-# GLOBAL
+# GLOBAL (can be overwritten by github workflow)
   ARG APP_UID=1000 \
       APP_GID=1000 \
       QT_VERSION=6.9.2 \
@@ -12,16 +12,21 @@
       APP_VUETORRENT_VERSION=2.30.1
 
 # :: FOREIGN IMAGES
+  # https://github.com/11notes/docker-distroless/blob/master/arch.dockerfile
   FROM 11notes/distroless AS distroless
+  # https://github.com/11notes/docker-distroless/blob/master/localhealth.dockerfile
   FROM 11notes/distroless:localhealth AS distroless-localhealth
+  # https://github.com/11notes/docker-distroless/blob/master/qt.dockerfile
   FROM 11notes/distroless:qt-minimal-${QT_VERSION} AS distroless-qt
+  # https://github.com/11notes/docker-util/blob/master/bin.dockerfile
   FROM 11notes/util:bin AS util-bin
+  # https://github.com/11notes/docker-util/blob/master/arch.dockerfile
   FROM 11notes/util AS util
 
 # ╔═════════════════════════════════════════════════════╗
 # ║                       BUILD                         ║
 # ╚═════════════════════════════════════════════════════╝
-# :: OPENSSL & ZLIB
+# :: BUILD THE IMAGE
   FROM alpine AS build
   COPY --from=distroless-qt / /
   COPY --from=util-bin / /
@@ -48,11 +53,11 @@
       py3-pkgconfig \
       pkgconfig;
 
-  # BOOST
+  # ADD BOOST DEPENDENCY
   RUN set -ex; \
     eleven github asset boostorg/boost boost-${APP_BOOST_VERSION} boost-${APP_BOOST_VERSION}-b2-nodocs.tar.gz;
 
-  # OPENSSL
+  # BUILD OPENSSL
   RUN set -ex; \
     eleven github asset openssl/openssl openssl-${APP_OPENSSL_VERSION} openssl-${APP_OPENSSL_VERSION}.tar.gz;
 
@@ -77,7 +82,7 @@
     cp -af /openssl-${APP_OPENSSL_VERSION}/libssl.a /usr/lib; \
     cp -af /openssl-${APP_OPENSSL_VERSION}/libcrypto.a /usr/lib;
 
-  # ZLIB
+  # BUILD ZLIB
   RUN set -ex; \
     eleven github asset madler/zlib v${APP_ZLIB_VERSION} zlib-${APP_ZLIB_VERSION}.tar.gz;
 
@@ -87,7 +92,7 @@
     make -s -j $(nproc) 2>&1 > /dev/null; \
     make -s -j $(nproc) install 2>&1 > /dev/null;
 
-  # LIBTORRENT
+  # BUILD LIBTORRENT
   RUN set -ex; \
     eleven github asset arvidn/libtorrent v${APP_LIBTORRENT_VERSION} libtorrent-rasterbar-${APP_LIBTORRENT_VERSION}.tar.gz;  
 
@@ -105,12 +110,12 @@
     cmake --build build; \
     cmake --install build;
 
-  # QBITTORRENT
+  # BUILD QBITTORRENT
   RUN set -ex; \
     eleven git clone qbittorrent/qBittorrent.git release-${APP_VERSION};
 
+  # CUSTOM: ADD ABILITY TO CHANGE user-agent AND peer ID
   RUN set -ex; \
-    # add custom user agent and peer ID variables
     sed -i 's|USER_AGENT.toStdString()|getenv("QBITTORRENT_USER_AGENT")|g' /qBittorrent/src/base/bittorrent/sessionimpl.cpp; \
     sed -i 's|arg(USER_AGENT)|arg(getenv("QBITTORRENT_USER_AGENT"))|g' /qBittorrent/src/base/bittorrent/sessionimpl.cpp; \
     sed -i 's|lt::generate_fingerprint(PEER_ID, QBT_VERSION_MAJOR, QBT_VERSION_MINOR, QBT_VERSION_BUGFIX, QBT_VERSION_BUILD);|getenv("QBITTORRENT_PEER_ID");|g' /qBittorrent/src/base/bittorrent/sessionimpl.cpp; \
