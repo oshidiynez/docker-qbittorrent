@@ -133,7 +133,7 @@ jobs:
           - 5000:5000
 
     permissions:
-      actions: read
+      actions: write
       contents: write
       packages: write
       attestations: write
