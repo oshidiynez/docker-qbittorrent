@@ -116,8 +116,7 @@
 
   # CUSTOM: ADD ABILITY TO CHANGE user-agent AND peer ID
   RUN set -ex; \
-    sed -i 's|USER_AGENT.toStdString()|getenv("QBITTORRENT_USER_AGENT") ? getenv("QBITTORRENT_USER_AGENT") : USER_AGENT.toStdString()|g' /qBittorrent/src/base/bittorrent/sessionimpl.cpp; \
-    sed -i 's|tr("HTTP User-Agent: \"%1\"").arg(USER_AGENT)|getenv("QBITTORRENT_USER_AGENT") ? getenv("QBITTORRENT_USER_AGENT") : tr("HTTP User-Agent: \"%1\"").arg(USER_AGENT)|g' /qBittorrent/src/base/bittorrent/sessionimpl.cpp; \
+    sed -i 's|const auto USER_AGENT = QStringLiteral("qBittorrent/" QBT_VERSION_2);|const char *envUserAgent = getenv("QBITTORRENT_USER_AGENT");\ \n    const auto USER_AGENT = envUserAgent ? QString::fromUtf8(envUserAgent) : QStringLiteral("qBittorrent/" QBT_VERSION_2);|' /qBittorrent-release-${QBT_VERSION}/src/base/bittorrent/sessionimpl.cpp; \
     sed -i 's|lt::generate_fingerprint(PEER_ID, QBT_VERSION_MAJOR, QBT_VERSION_MINOR, QBT_VERSION_BUGFIX, QBT_VERSION_BUILD);|getenv("QBITTORRENT_PEER_ID") ? getenv("QBITTORRENT_PEER_ID") : lt::generate_fingerprint(PEER_ID, QBT_VERSION_MAJOR, QBT_VERSION_MINOR, QBT_VERSION_BUGFIX, QBT_VERSION_BUILD);|g' /qBittorrent/src/base/bittorrent/sessionimpl.cpp; \
     sed -i '1i #include <stdlib.h>' /qBittorrent/src/base/bittorrent/sessionimpl.cpp;
 
