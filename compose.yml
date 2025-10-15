@@ -13,6 +13,8 @@ services:
     <<: *lockdown
     environment:
       TZ: "Europe/Zurich"
+      QBITTORRENT_USER_AGENT: "11notes/qbittorrent" # optional
+      QBITTORRENT_PEER_ID: "-qB11-" # optional
     volumes:
       - "qbittorrent.etc:/qbittorrent/etc"
       - "qbittorrent.var:/qbittorrent/var"
