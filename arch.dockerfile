@@ -116,7 +116,7 @@
 
   # CUSTOM: ADD ABILITY TO CHANGE user-agent AND peer ID
   RUN set -ex; \
-    sed -i 's|const auto USER_AGENT = QStringLiteral("qBittorrent/" QBT_VERSION_2);|const auto USER_AGENT = getenv("QBITTORRENT_USER_AGENT") ? getenv("QBITTORRENT_USER_AGENT") : QStringLiteral("qBittorrent/" QBT_VERSION_2);|' /qBittorrent/src/base/bittorrent/sessionimpl.cpp; \
+    sed -i 's|const auto USER_AGENT = QStringLiteral("qBittorrent/" QBT_VERSION_2);|const char *envUserAgent = getenv("QBITTORRENT_USER_AGENT"); const auto USER_AGENT = envUserAgent ? QString::fromUtf8(envUserAgent) : QStringLiteral("qBittorrent/" QBT_VERSION_2);|' /qBittorrent/src/base/bittorrent/sessionimpl.cpp; \
     sed -i 's|lt::generate_fingerprint(PEER_ID, QBT_VERSION_MAJOR, QBT_VERSION_MINOR, QBT_VERSION_BUGFIX, QBT_VERSION_BUILD);|getenv("QBITTORRENT_PEER_ID") ? getenv("QBITTORRENT_PEER_ID") : lt::generate_fingerprint(PEER_ID, QBT_VERSION_MAJOR, QBT_VERSION_MINOR, QBT_VERSION_BUGFIX, QBT_VERSION_BUILD);|g' /qBittorrent/src/base/bittorrent/sessionimpl.cpp; \
     sed -i '1i #include <stdlib.h>' /qBittorrent/src/base/bittorrent/sessionimpl.cpp;
 
